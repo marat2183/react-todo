@@ -15,14 +15,14 @@ const App = () => {
 
 
     const showInputError = (message) => {
-    const taskInput = document.querySelector('.header__input')
-    const errorSpan = document.querySelector('.error');
-    errorSpan.textContent = message;
-    errorSpan.style.display = 'block';
-    taskInput.style.borderColor = '#FF0000';
-    taskInput.addEventListener('keyup', () => {
-            errorSpan.removeAttribute('style');
-            taskInput.removeAttribute('style');
+        const taskInput = document.querySelector('.header__input')
+        const errorSpan = document.querySelector('.error');
+        errorSpan.textContent = message;
+        errorSpan.style.display = 'block';
+        taskInput.style.borderColor = '#FF0000';
+        taskInput.addEventListener('keyup', () => {
+                errorSpan.removeAttribute('style');
+                taskInput.removeAttribute('style');
         }, { "once": true });
     }
 
@@ -50,7 +50,6 @@ const App = () => {
 
     const onClickHandler = () => {
         const userInput = textInput.trim();
-        console.log(userInput);
         try {
             taskService.create(userInput);
             setTextInput('');
