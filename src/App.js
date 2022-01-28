@@ -1,10 +1,22 @@
-import Header from "./components/Header.jsx";
-import Statistic from "./components/Statistic.jsx";
-import { useState } from "react";
-import TaskList from "./components/TaskList.jsx";
-import service from "./services/taskService.js";
+import { useState, useEffect, useRef } from "react";
+
+import Header from "components/Header";
+import Statistic from "components/Statistic";
+import TaskList from "components/TaskList";
+
+import service from "services/taskService.js";
+
 
 const App = () => {
+
+    const usePrevious = (value) => {
+        const ref = useRef();
+        useEffect(() => {
+          ref.current = value;
+        });
+        return ref.current;
+    };
+
     const taskService = new service()
     const tasksInit = taskService.getList();
     const completedTasksPerWeekInit = taskService.getNumOfCompletedTasksPerWeek(tasksInit);
@@ -12,29 +24,32 @@ const App = () => {
     const [completedTasksPerWeek, setCompletedTasksPerWeek] = useState(completedTasksPerWeekInit);
     const [tasks, setTasks] = useState(tasksInit);
     const [textInput, setTextInput] = useState('');
+    const [inputError, setInputError] = useState(
+        {
+            status: false,
+            msg: ''
+        });
+    const prevTextInput = usePrevious(textInput);
+    
 
-
-    const showInputError = (message) => {
-        const taskInput = document.querySelector('.header__input')
-        const errorSpan = document.querySelector('.error');
-        errorSpan.textContent = message;
-        errorSpan.style.display = 'block';
-        taskInput.style.borderColor = '#FF0000';
-        taskInput.addEventListener('keyup', () => {
-                errorSpan.removeAttribute('style');
-                taskInput.removeAttribute('style');
-        }, { "once": true });
-    }
+    useEffect(() => {
+       if (inputError.status && (prevTextInput.length !== textInput.length)){
+            setInputError({
+               status: false,
+               msg: ''
+            })
+       }
+    }, [prevTextInput, inputError, textInput])
 
     const updateStates = () => {
         const updatedTaskList = taskService.getList();
         setTasks(updatedTaskList);
-        const updatedCompletedTaskPerWeek = taskService.getNumOfCompletedTasksPerWeek(tasks);
+        const updatedCompletedTaskPerWeek = taskService.getNumOfCompletedTasksPerWeek(updatedTaskList);
         setCompletedTasksPerWeek(updatedCompletedTaskPerWeek)
     }
 
-    const onAddTask = (newTask) => {
-        taskService.create(newTask.name)
+    const onAddTask = (taskName) => {
+        taskService.create(taskName)
         updateStates();
     }
 
@@ -48,15 +63,24 @@ const App = () => {
         updateStates();
     }
 
+    const onInputError = (error='') => {
+        setInputError((currentState) => {
+            return {
+                status: !currentState.status,
+                msg: error
+            }
+
+        });
+    }
+
     const onClickHandler = () => {
         const userInput = textInput.trim();
         try {
-            taskService.create(userInput);
+            onAddTask(userInput);
             setTextInput('');
-            updateStates();
         }
         catch (error) {
-            showInputError(error.message);
+            onInputError(error.message);
         }
     }
 
@@ -71,8 +95,8 @@ const App = () => {
                 To Do
             </h1>
             <Header
-                addTask={onAddTask}
                 textInput={textInput}
+                inputError={inputError}
                 clickHandler={onClickHandler}
                 changeHandler={onInputChangeHandler}
             />
