@@ -29,8 +29,8 @@ const service = class  {
         if (!task){
             throw new Error ('Task doesn\'t exist')
         }
-        taskObj.completed = !taskObj.completed
-        this.taskRepository.update(taskObj);
+        task.completed = !taskObj.completed
+        this.taskRepository.update(task);
     }
     
     delete = (taskName) => this.taskRepository.delete(taskName);
