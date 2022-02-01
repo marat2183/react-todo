@@ -1,76 +1,76 @@
 .task{
-    margin-top: 5px;
-    background-color: #f4f6f7;
-    border-radius: 10px;
-    padding: 5px 10px;
-    display: flex;
-    align-items: center;
-    width: 100%;
+  margin-top: 5px;
+  background-color: #f4f6f7;
+  border-radius: 10px;
+  padding: 5px 10px;
+  display: flex;
+  align-items: center;
+  width: 100%;
 
-    &:first-of-type{
-        margin-top: 0;
+  &:first-of-type{
+    margin-top: 0;
+  }
+
+  &__name{
+    max-width: calc(100% - 70px);
+    margin-left: 15px;
+  }
+
+  &__checkbox{
+    width: 25px;
+    height: 25px;
+    border: 1px solid grey;
+    border-radius: 50%;
+
+    &:hover{ 
+      .task__checkbox-icon{
+        opacity: 0.5;
+      }
     }
 
-    &__name{
-        max-width: calc(100% - 70px);
-        margin-left: 15px;
+    &:active{ 
+      .task__checkbox-icon{
+        fill: #fff;
+      }
     }
 
-    &__checkbox{
-        width: 25px;
-        height: 25px;
-        border: 1px solid grey;
-        border-radius: 50%;
+    &--active{
+      background-color: #4ccb55;
+      border-color: #4ccb55;
 
-        &:hover{ 
-            .task__checkbox-icon{
-                opacity: 0.5;
-            }
+      .task__checkbox-icon{
+          opacity: 1;
+          fill: #fff;
+      }
+      &:hover{
+        .task__checkbox-icon{
+          opacity: 1;
         }
-
-        &:active{ 
-            .task__checkbox-icon{
-                fill: #fff;
-            }
-        }
-
-        &--active{
-            background-color: #4ccb55;
-            border-color: #4ccb55;
-
-            .task__checkbox-icon{
-                opacity: 1;
-                fill: #fff;
-            }
-            &:hover{
-                .task__checkbox-icon{
-                    opacity: 1;
-                }
-            } 
-        }
+      } 
     }
+  }
 
-    &__checkbox-icon{
-        position: relative;
-        top: 2px;
-        left: 1px;
-        fill: black;
-        opacity: 0;
-        transition: 0.4s ease-in-out;
-    }
+  &__checkbox-icon{
+    position: relative;
+    top: 2px;
+    left: 1px;
+    fill: black;
+    opacity: 0;
+    transition: 0.4s ease-in-out;
+  }
 
-    &--completed{
-        .task__name{
-            text-decoration: line-through;
-        }
+  &--completed{
+    .task__name{
+      text-decoration: line-through;
     }
+  }
 
-    &__delete-btn{
-        width: 20px;
-        height: 20px;
-        cursor: pointer;
-        margin-left: auto;
-    }
+  &__delete-btn{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin-left: auto;
+  }
 }
 
 

@@ -1,6 +1,6 @@
 import repository from '../repositories/taskRepository.js'
 
-const service = class  {
+const Service = class  {
     constructor (){
         this.taskRepository = new repository();
     }
@@ -49,4 +49,6 @@ const service = class  {
 }
 
 
-export default service
+const taskService = new Service();
+
+export default taskService
