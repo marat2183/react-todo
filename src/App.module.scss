@@ -14,11 +14,11 @@
 }
   
   
-  @media(min-width: 1024px){
-    .content{
-        padding: 50px 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+@media(min-width: 1024px){
+  .content{
+      padding: 50px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
   }
+}
