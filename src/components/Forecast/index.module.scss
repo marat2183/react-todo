@@ -1,0 +1,99 @@
+.forecast{
+  
+  &__wrapper{
+    padding: 25px 25px;
+    border: 2px solid #808080;
+    border-radius: 15px;
+    width: calc(100% - 50px);
+    margin: 0 auto;
+  }
+
+  &__text{
+    font-size: 16px;
+    color: #000;
+    font-weight: 500;
+
+    &--city-name{
+      font-size: 20px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    &--temperature{
+      margin-top: 10px;
+      font-size: 55px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    &--description{
+      text-align: center;
+      color: #808080;
+      font-weight: 500;
+    }
+
+  }
+
+  &__characteristics{
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__characteristics-img{
+    width: 150px;
+    height: 150px;
+  }
+
+  
+}
+
+.characteristics{
+  &__list{
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    
+
+  }
+
+  &__item{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  &__img{
+    width: 30px;
+    height: 30px;
+  }
+
+  &__value{
+    margin-left: 5px;
+  }
+}
+
+@media(min-width: 425px){
+  .forecast{
+
+    &__characteristics{
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+}
+
+@media(min-width: 725px){
+  .forecast{
+
+    &__wrapper{
+      width: calc(100% - 300px);
+    }
+  }
+}
