@@ -16,18 +16,15 @@ export const getWeather = createAsyncThunk(
             units: 'metric'
           }
         })
-        .catch((error) => {
-          if (error.response && error.response.status < 500) {
-            throw new Error (error.response.data.message) 
-          }
-          else{
-            throw new Error ('Failed to get data from external api')
-          }
-        })
         return response.data
     }
     catch(error){
-      return rejectWithValue(error.message)
+      if (error.response && error.response.status < 500) {
+        return rejectWithValue(error.response.data.message) 
+      }
+      else{
+        return rejectWithValue('Failed to get data from external api')
+      }
     }
   });
 
@@ -54,6 +51,7 @@ export const weatherSlice = createSlice({
       console.log(action)
       state.status = 'rejected'
       state.error = action.payload
+      state.data = {}
     }
   }
   
