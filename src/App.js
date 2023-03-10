@@ -6,8 +6,6 @@ import {
 } from "react-router-dom";
 
 import s from './App.module.scss';
-import StatisticPage from 'pages/statistic';
-import WeatherPage from 'pages/weather';
 import TasksPage from 'pages/root';
 
 
@@ -18,8 +16,6 @@ const App = () => {
         <div className={s['content__inner']}>
           <Routes>
             <Route path="/" element={<TasksPage />} />
-            <Route path="statistic" element={<StatisticPage />} />
-            <Route path="weather" element={<WeatherPage />} />
           </Routes>
         </div>
       </section>

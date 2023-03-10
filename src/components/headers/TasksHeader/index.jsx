@@ -1,20 +1,11 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-
-import { addTask } from 'slices/tasks.js';
-import { incrementCompletedTasksPerWeek } from 'slices/statistic.js';
 import addIcon from 'assets/img/add-icon.svg';
 import s from './index.module.scss';
 
 import taskService from 'services/taskService.js';
 
 
-
-
-const TasksHeader = () => {
-
-  const dispatch = useDispatch();
-
+const TasksHeader = ({setTasks}) => {
   const [textInput, setTextInput] = useState('');
   const [inputError, setInputError] = useState(
     {
@@ -30,10 +21,7 @@ const TasksHeader = () => {
       completed: completed,
       lastModTime: Date.now()
     }
-    dispatch(addTask(task))
-    if (completed) {
-      dispatch(incrementCompletedTasksPerWeek())
-    }
+    setTasks((prev) => [...prev, task])
   }
 
   const onInputError = (error = '') => {
@@ -71,22 +59,24 @@ const TasksHeader = () => {
         <input
           type="text"
           value={textInput}
+          data-testid="task_input"
           className={`${s["header__input"]} ${inputError.status ? s['header__input--error'] : ''}`}
           placeholder="Write your task name"
           onChange={changeHandler} />
         <img
           src={addIcon}
           alt=""
+          data-testid="task_input_btn"
           className={s["header__add-btn"]}
           onClick={clickHandler}
         />
       </header>
       {
         inputError.status ?
-          <span className={`${s["error"]} ${s['error--active']}`}>
+          <span className={`${s["error"]} ${s['error--active']}`} data-testid="task_input_error">
             {inputError.msg}
           </span> :
-          <span className={s["error"]}></span>
+          <></>
       }
     </>
   );
