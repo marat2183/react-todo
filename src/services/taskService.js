@@ -1,8 +1,8 @@
 import repository from '../repositories/taskRepository.js';
 
 const Service = class {
-  constructor() {
-    this.taskRepository = new repository();
+  constructor(taskRepository) {
+    this.taskRepository = taskRepository;
   }
 
   getList = () => this.taskRepository.getList();
@@ -27,7 +27,7 @@ const Service = class {
   toggleStatus = (taskObj) => {
     const task = this.get(taskObj.name);
     if (!task) {
-      throw new Error('Task doesn\'t exist');
+      throw new Error("Task doesn't exist");
     }
     task.completed = !taskObj.completed;
     this.taskRepository.update(task);
@@ -48,6 +48,7 @@ const Service = class {
   };
 };
 
-const taskService = new Service();
+const taskRepository = new repository();
+const taskService = new Service(taskRepository);
 
 export default taskService;
