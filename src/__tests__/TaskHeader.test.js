@@ -6,19 +6,18 @@ import taskService from 'services/taskService';
 
 import TaskHeader from '../components/TasksHeader';
 
-jest.mock('services/taskService');
-taskService.create = jest.fn();
-
-const setTasks = jest.fn();
-
-const dataTestIds = {
-  taskInput: 'task_input',
-  taskInputError: 'task_input_error',
-  taskInputBtn: 'task_input_btn'
-};
-
 describe('TaskHeader tests', () => {
-  beforeEach(() => {
+  jest.mock('services/taskService');
+  taskService.create = jest.fn();
+  const setTasks = jest.fn();
+
+  const dataTestIds = {
+    taskInput: 'task_input',
+    taskInputError: 'task_input_error',
+    taskInputBtn: 'task_input_btn'
+  };
+
+  afterEach(() => {
     jest.restoreAllMocks();
   });
 
@@ -31,7 +30,7 @@ describe('TaskHeader tests', () => {
     expect(screen.queryByTestId(dataTestIds.taskInput)).toHaveAttribute('placeholder', 'Write your task name');
   });
 
-  it('Changed Input', () => {
+  it('Change Input', () => {
     render(<TaskHeader setTasks={setTasks} />);
 
     fireEvent.change(screen.queryByTestId(dataTestIds.taskInput), {
@@ -46,7 +45,6 @@ describe('TaskHeader tests', () => {
     taskService.create = jest.fn(() => {
       throw new Error('Your task name is empty!');
     });
-
     render(<TaskHeader setTasks={setTasks} />);
 
     fireEvent.click(screen.queryByTestId(dataTestIds.taskInputBtn));
@@ -93,11 +91,10 @@ describe('TaskHeader tests', () => {
     expect(taskService.create).toHaveBeenCalledWith(expectedTaskName);
   });
 
-  it('error reset when input changed', () => {
+  it('Error reset when input changed', () => {
     taskService.create = jest.fn(() => {
       throw new Error('Your task name is empty!');
     });
-
     render(<TaskHeader setTasks={setTasks} />);
 
     fireEvent.click(screen.queryByTestId(dataTestIds.taskInputBtn));

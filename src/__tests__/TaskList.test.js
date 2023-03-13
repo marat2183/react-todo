@@ -4,21 +4,20 @@ import React from 'react';
 
 import TaskList from '../components/TaskList';
 
-const setTasks = jest.fn();
-
-const dataTestIds = {
-  taskList: 'tasks_list',
-  task: 'task'
-};
-
 describe('TaskList component tests', () => {
-  beforeEach(() => {
+  const setTasks = jest.fn();
+
+  const dataTestIds = {
+    taskList: 'tasks_list',
+    task: 'task'
+  };
+
+  afterEach(() => {
     jest.restoreAllMocks();
   });
 
   it('Render without tasks', () => {
     const tasks = [];
-
     render(<TaskList tasks={tasks} setTasks={setTasks} />);
 
     expect(screen.queryByTestId(dataTestIds.taskList)).not.toBe(null);
@@ -31,7 +30,6 @@ describe('TaskList component tests', () => {
       { name: '123', completed: true, lastModTime: 1678454949601 },
       { name: '12345', completed: false, lastModTime: 1678454948434 }
     ];
-
     render(<TaskList tasks={tasks} setTasks={setTasks} />);
 
     expect(screen.queryByTestId(dataTestIds.taskList)).not.toBe(null);

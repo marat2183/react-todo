@@ -8,11 +8,6 @@ import taskService from 'services/taskService';
 import Task from '../components/Task';
 import s from '../components/Task"/index.module.scss';
 
-jest.mock('services/taskService');
-taskService.toggleStatus = jest.fn();
-taskService.delete = jest.fn();
-const setTasks = jest.fn();
-
 const dataTestIds = {
   task: 'task',
   taskName: 'task-name',
@@ -21,13 +16,17 @@ const dataTestIds = {
 };
 
 describe('Task component', () => {
-  beforeEach(() => {
+  jest.mock('services/taskService');
+  taskService.toggleStatus = jest.fn();
+  taskService.delete = jest.fn();
+  const setTasks = jest.fn();
+
+  afterEach(() => {
     jest.restoreAllMocks();
   });
 
   it('Render completed task', () => {
     const task = { name: 'test', completed: false, lastModTime: 1678454940551 };
-
     render(<Task task={task} setTasks={setTasks} />);
 
     expect(screen.queryByTestId(dataTestIds.task)).not.toBe(null);
@@ -40,7 +39,6 @@ describe('Task component', () => {
 
   it('Render uncompleted task', () => {
     const task = { name: 'test', completed: true, lastModTime: 1678454940551 };
-
     render(<Task task={task} setTasks={setTasks} />);
 
     expect(screen.queryByTestId(dataTestIds.task)).not.toBe(null);
@@ -53,7 +51,6 @@ describe('Task component', () => {
 
   it('Change task completed state', () => {
     const task = { name: 'test', completed: false, lastModTime: 1678454940551 };
-
     render(<Task task={task} setTasks={setTasks} />);
     fireEvent.click(screen.queryByTestId(dataTestIds.taskCheckbox));
 
@@ -70,7 +67,6 @@ describe('Task component', () => {
 
   it('Delete task', () => {
     const task = { name: 'test', completed: false, lastModTime: 1678454940551 };
-
     render(<Task task={task} setTasks={setTasks} />);
     fireEvent.click(screen.queryByTestId(dataTestIds.taskDeleteBtn));
 
