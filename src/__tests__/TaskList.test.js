@@ -1,38 +1,39 @@
-import { screen, render } from "@testing-library/react";
+import { screen, render } from '@testing-library/react';
 
-import React from "react";
-import TaskList from "../components/TaskList";
+import React from 'react';
+
+import TaskList from '../components/TaskList';
 
 const setTasks = jest.fn();
 
 const dataTestIds = {
   taskList: 'tasks_list',
   task: 'task'
-}
+};
 
-describe("TaskList component tests", () => {
+describe('TaskList component tests', () => {
   beforeEach(() => {
     jest.restoreAllMocks();
   });
 
-  it("Render without tasks", () => {
+  it('Render without tasks', () => {
     const tasks = [];
 
     render(<TaskList tasks={tasks} setTasks={setTasks} />);
-    
+
     expect(screen.queryByTestId(dataTestIds.taskList)).not.toBe(null);
     expect(screen.queryAllByTestId(dataTestIds.task).length).toBe(0);
   });
 
-  it("Render with tasks", () => {
+  it('Render with tasks', () => {
     const tasks = [
-      { name: "test", completed: false, lastModTime: 1678454940551 },
-      { name: "123", completed: true, lastModTime: 1678454949601 },
-      { name: "12345", completed: false, lastModTime: 1678454948434 },
+      { name: 'test', completed: false, lastModTime: 1678454940551 },
+      { name: '123', completed: true, lastModTime: 1678454949601 },
+      { name: '12345', completed: false, lastModTime: 1678454948434 }
     ];
 
     render(<TaskList tasks={tasks} setTasks={setTasks} />);
-    
+
     expect(screen.queryByTestId(dataTestIds.taskList)).not.toBe(null);
     expect(screen.queryAllByTestId(dataTestIds.task).length).toBe(3);
   });

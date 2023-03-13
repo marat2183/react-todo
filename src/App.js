@@ -1,18 +1,14 @@
 import React from 'react';
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import s from './App.module.scss';
 import TasksPage from 'pages/root';
 
+import s from './App.module.scss';
 
 const App = () => {
   return (
     <BrowserRouter>
-      <section className={s["content"]}>
+      <section className={s['content']}>
         <div className={s['content__inner']}>
           <Routes>
             <Route path="/" element={<TasksPage />} />
@@ -21,6 +17,6 @@ const App = () => {
       </section>
     </BrowserRouter>
   );
-}
+};
 
 export default App;
