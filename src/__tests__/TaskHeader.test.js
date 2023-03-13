@@ -1,52 +1,115 @@
-import { fireEvent, screen, render } from "@testing-library/react";
-
+import "@testing-library/jest-dom/extend-expect";
 import React from "react";
-import TaskHeader from "../components/headers/TasksHeader";
+import { fireEvent, screen, render } from "@testing-library/react";
+import TaskHeader from "../components/TasksHeader";
+import taskService from "services/taskService";
 
-test("Default input", () => {
-  render(<TaskHeader />);
-  const input = screen.queryByTestId("task_input");
-  const error = screen.queryByTestId("task_input_error");
+jest.mock("services/taskService");
+taskService.create = jest.fn();
 
-  expect(error).toBe(null);
-  expect(input.value).toBe("");
-});
+const setTasks = jest.fn();
 
-test("Changed Input", () => {
-  const mockSetTasks = jest.fn();
-  render(<TaskHeader setTasks={mockSetTasks} />);
-  const input = screen.queryByTestId("task_input");
+const dataTestIds = {
+  taskInput: "task_input",
+  taskInputError: "task_input_error",
+  taskInputBtn: "task_input_btn",
+};
 
-  fireEvent.change(input, { target: { value: "test" } });
+describe("TaskHeader tests", () => {
+  beforeEach(() => {
+    jest.restoreAllMocks();
+  });
 
-  expect(input.value).toBe("test");
-});
+  it("Empty input", () => {
+    render(<TaskHeader setTasks={setTasks} />);
 
-test("Button click with empty input", () => {
-  const mockSetTasks = jest.fn();
-  render(<TaskHeader setTasks={mockSetTasks} />);
+    expect(screen.queryByTestId(dataTestIds.taskInput)).not.toBe(null);
+    expect(screen.queryByTestId(dataTestIds.taskInputError)).toBe(null);
+    expect(screen.queryByTestId(dataTestIds.taskInput).value).toBe("");
+    expect(screen.queryByTestId(dataTestIds.taskInput)).toHaveAttribute(
+      "placeholder",
+      "Write your task name"
+    );
+  });
 
-  const btn = screen.queryByTestId("task_input_btn");
+  it("Changed Input", () => {
+    render(<TaskHeader setTasks={setTasks} />);
 
-  fireEvent.click(btn);
+    fireEvent.change(screen.queryByTestId(dataTestIds.taskInput), {
+      target: { value: "test" },
+    });
 
-  const error = screen.queryByTestId("task_input_error");
+    expect(screen.queryByTestId(dataTestIds.taskInput).value).toBe("test");
+    expect(setTasks).not.toBeCalled();
+  });
 
-  expect(error.textContent).toBe("Your task name is empty!");
-  expect(mockSetTasks).not.toBeCalled();
-});
+  it("Button click with empty input", () => {
+    taskService.create = jest.fn(() => {
+      throw new Error("Your task name is empty!");
+    });
 
-test("Button click with changed input", () => {
-  const mockSetTasks = jest.fn();
-  render(<TaskHeader setTasks={mockSetTasks} />);
-  const input = screen.queryByTestId("task_input");
-  const btn = screen.queryByTestId("task_input_btn");
+    render(<TaskHeader setTasks={setTasks} />);
 
-  fireEvent.change(input, { target: { value: "test" } });
-  fireEvent.click(btn);
+    fireEvent.click(screen.queryByTestId(dataTestIds.taskInputBtn));
 
-  const error = screen.queryByTestId("task_input_error");
-  expect(error).toBe(null);
-  expect(screen.queryByTestId("task_input").value).toBe("");
-  expect(mockSetTasks).toBeCalledTimes(1);
+    const expectedTaskName = "";
+
+    expect(taskService.create).toBeCalledTimes(1);
+    expect(taskService.create).toHaveBeenCalledWith(expectedTaskName);
+    expect(screen.queryByTestId(dataTestIds.taskInputError).textContent).toBe(
+      "Your task name is empty!"
+    );
+    expect(setTasks).not.toBeCalled();
+  });
+
+  it("Button click with changed input", () => {
+    render(<TaskHeader setTasks={setTasks} />);
+
+    fireEvent.change(screen.queryByTestId(dataTestIds.taskInput), {
+      target: { value: "test" },
+    });
+    fireEvent.click(screen.queryByTestId(dataTestIds.taskInputBtn));
+
+    const expectedTaskName = "test";
+
+    expect(screen.queryByTestId(dataTestIds.taskInputError)).toBe(null);
+    expect(screen.queryByTestId(dataTestIds.taskInput).value).toBe("");
+    expect(setTasks).toBeCalledTimes(1);
+    expect(taskService.create).toBeCalledTimes(1);
+    expect(taskService.create).toHaveBeenCalledWith(expectedTaskName);
+  });
+
+  it("Button click with input to trim", () => {
+    render(<TaskHeader setTasks={setTasks} />);
+
+    fireEvent.change(screen.queryByTestId(dataTestIds.taskInput), {
+      target: { value: "   test   " },
+    });
+    fireEvent.click(screen.queryByTestId(dataTestIds.taskInputBtn));
+
+    const expectedTaskName = "test";
+
+    expect(screen.queryByTestId(dataTestIds.taskInputError)).toBe(null);
+    expect(screen.queryByTestId(dataTestIds.taskInput).value).toBe("");
+    expect(setTasks).toBeCalledTimes(1);
+    expect(taskService.create).toBeCalledTimes(1);
+    expect(taskService.create).toHaveBeenCalledWith(expectedTaskName);
+  });
+
+  it("error reset when input changed", () => {
+    taskService.create = jest.fn(() => {
+      throw new Error("Your task name is empty!");
+    });
+
+    render(<TaskHeader setTasks={setTasks} />);
+
+    fireEvent.click(screen.queryByTestId(dataTestIds.taskInputBtn));
+    fireEvent.change(screen.queryByTestId(dataTestIds.taskInput), {
+      target: { value: "test" },
+    });
+
+    expect(screen.queryByTestId(dataTestIds.taskInputError)).toBe(null);
+
+    
+  });
 });

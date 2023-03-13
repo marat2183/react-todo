@@ -1,27 +1,39 @@
-import { fireEvent, screen, render } from "@testing-library/react";
+import { screen, render } from "@testing-library/react";
 
 import React from "react";
 import TaskList from "../components/TaskList";
 
-test("Render without tasks", () => {
-  const tasks = [];
-  const setTasks = jest.fn();
+const setTasks = jest.fn();
 
-  render(<TaskList tasks={tasks} setTasks={setTasks} />);
-  const taskList = screen.queryByTestId("tasks_list");
+const dataTestIds = {
+  taskList: 'tasks_list',
+  task: 'task'
+}
 
-  expect(taskList.childElementCount).toBe(0);
-});
+describe("TaskList component tests", () => {
+  beforeEach(() => {
+    jest.restoreAllMocks();
+  });
 
-test("Render with tasks", () => {
-  const tasks = [
-    { name: "test", completed: false, lastModTime: 1678454940551 },
-    { name: "123", completed: true, lastModTime: 1678454949601 },
-    { name: "12345", completed: false, lastModTime: 1678454948434 },
-  ];  const setTasks = jest.fn();
+  it("Render without tasks", () => {
+    const tasks = [];
 
-  render(<TaskList tasks={tasks} setTasks={setTasks} />);
-  const taskList = screen.queryByTestId("tasks_list");
+    render(<TaskList tasks={tasks} setTasks={setTasks} />);
+    
+    expect(screen.queryByTestId(dataTestIds.taskList)).not.toBe(null);
+    expect(screen.queryAllByTestId(dataTestIds.task).length).toBe(0);
+  });
 
-  expect(taskList.childElementCount).toBe(3);
+  it("Render with tasks", () => {
+    const tasks = [
+      { name: "test", completed: false, lastModTime: 1678454940551 },
+      { name: "123", completed: true, lastModTime: 1678454949601 },
+      { name: "12345", completed: false, lastModTime: 1678454948434 },
+    ];
+
+    render(<TaskList tasks={tasks} setTasks={setTasks} />);
+    
+    expect(screen.queryByTestId(dataTestIds.taskList)).not.toBe(null);
+    expect(screen.queryAllByTestId(dataTestIds.task).length).toBe(3);
+  });
 });
