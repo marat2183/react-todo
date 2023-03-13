@@ -43,7 +43,7 @@ const Task = ({ task, setTasks }) => {
         </svg>
       </div>
       <span className={s["task__name"]} data-testid="task-name">{task.name}</span>
-      <img className={s["task__delete-btn"]} alt='' src={deleteIcon} onClick={() => onRemoveTask(task)} />
+      <img className={s["task__delete-btn"]} alt='' src={deleteIcon} onClick={() => onRemoveTask(task)} data-testid="task-delete-btn" />
     </div>
   );
 }

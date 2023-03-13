@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import taskService from 'services/taskService';
-import TasksHeader from 'components/headers/TasksHeader';
+import TasksHeader from 'components/TasksHeader';
 import TaskList from 'components/TaskList';
 import s from './index.module.scss';
 
