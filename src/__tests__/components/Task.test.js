@@ -5,7 +5,7 @@ import React from 'react';
 
 import taskService from 'services/taskService';
 
-import Task from '../components/Task';
+import Task from '../../components/Task';
 import s from '../components/Task"/index.module.scss';
 
 const dataTestIds = {

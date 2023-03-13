@@ -2,7 +2,7 @@ import { screen, render } from '@testing-library/react';
 
 import React from 'react';
 
-import TaskList from '../components/TaskList';
+import TaskList from '../../components/TaskList';
 
 describe('TaskList component tests', () => {
   const setTasks = jest.fn();

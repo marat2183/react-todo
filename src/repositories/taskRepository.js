@@ -34,4 +34,6 @@ const repository = class {
   };
 };
 
-export default repository;
+const taskRepository = new repository();
+
+export default taskRepository;

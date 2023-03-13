@@ -4,7 +4,7 @@ import { fireEvent, screen, render } from '@testing-library/react';
 
 import taskService from 'services/taskService';
 
-import TaskHeader from '../components/TasksHeader';
+import TaskHeader from '../../components/TasksHeader';
 
 describe('TaskHeader tests', () => {
   jest.mock('services/taskService');
