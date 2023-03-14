@@ -20,21 +20,16 @@ const dataTestIds = {
 
 describe('Render TaskPage component', () => {
   jest.mock('services/taskService');
+  taskService.getList = jest.fn().mockReturnValue([
+    { name: '123', completed: false, lastModTime: 1678454949601 },
+    { name: '12345', completed: false, lastModTime: 1678454948434 }
+  ]);
+  taskService.create = jest.fn();
+  taskService.toggleStatus = jest.fn();
+  taskService.delete = jest.fn();
 
   beforeEach(() => {
-    taskService.getList = jest.fn(() => {
-      return [
-        { name: '123', completed: false, lastModTime: 1678454949601 },
-        { name: '12345', completed: false, lastModTime: 1678454948434 }
-      ];
-    });
-    taskService.create = jest.fn();
-    taskService.toggleStatus = jest.fn();
-    taskService.delete = jest.fn();
-  });
-
-  afterEach(() => {
-    jest.restoreAllMocks();
+    jest.clearAllMocks();
   });
 
   it('Render TaskPage', () => {

@@ -6,19 +6,19 @@ import taskService from 'services/taskService';
 
 import TaskHeader from '../../components/TasksHeader';
 
+const dataTestIds = {
+  taskInput: 'task_input',
+  taskInputError: 'task_input_error',
+  taskInputBtn: 'task_input_btn'
+};
+
 describe('TaskHeader tests', () => {
   jest.mock('services/taskService');
-  const setTasks = jest.fn();
+  let setTasks;
 
-  const dataTestIds = {
-    taskInput: 'task_input',
-    taskInputError: 'task_input_error',
-    taskInputBtn: 'task_input_btn'
-  };
-
-  afterEach(() => {
-    jest.restoreAllMocks();
+  beforeEach(() => {
     taskService.create = jest.fn();
+    setTasks = jest.fn();
   });
 
   it('Empty input', () => {

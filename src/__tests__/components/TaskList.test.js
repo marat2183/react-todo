@@ -12,10 +12,6 @@ describe('TaskList component tests', () => {
     task: 'task'
   };
 
-  afterEach(() => {
-    jest.restoreAllMocks();
-  });
-
   it('Render without tasks', () => {
     const tasks = [];
     render(<TaskList tasks={tasks} setTasks={setTasks} />);

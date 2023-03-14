@@ -1,5 +1,11 @@
 {
   "name": "react-todo",
+  "jest": {
+    "clearMocks": true,
+    "resetMocks": false,
+    "restoreMocks": false
+
+  },
   "version": "0.1.0",
   "private": true,
   "dependencies": {
