@@ -17,12 +17,12 @@ const dataTestIds = {
 
 describe('Task component', () => {
   jest.mock('services/taskService');
-  taskService.toggleStatus = jest.fn();
-  taskService.delete = jest.fn();
   const setTasks = jest.fn();
 
   afterEach(() => {
     jest.restoreAllMocks();
+    taskService.toggleStatus = jest.fn();
+    taskService.delete = jest.fn();
   });
 
   it('Render completed task', () => {

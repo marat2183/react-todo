@@ -20,35 +20,31 @@ const dataTestIds = {
 
 describe('Render TaskPage component', () => {
   jest.mock('services/taskService');
-  taskService.getList = jest.fn();
-  taskService.create = jest.fn();
-  taskService.toggleStatus = jest.fn();
-  taskService.delete = jest.fn();
+
+  beforeEach(() => {
+    taskService.getList = jest.fn(() => {
+      return [
+        { name: '123', completed: false, lastModTime: 1678454949601 },
+        { name: '12345', completed: false, lastModTime: 1678454948434 }
+      ];
+    });
+    taskService.create = jest.fn();
+    taskService.toggleStatus = jest.fn();
+    taskService.delete = jest.fn();
+  });
 
   afterEach(() => {
     jest.restoreAllMocks();
   });
 
   it('Render TaskPage', () => {
-    taskService.getList = jest.fn(() => {
-      return [
-        { name: '123', completed: false, lastModTime: 1678454949601 },
-        { name: '12345', completed: false, lastModTime: 1678454948434 }
-      ];
-    });
     render(<TasksPage />);
 
     expect(screen.queryByTestId(dataTestIds.taskList)).not.toBe(null);
     expect(screen.queryAllByTestId(dataTestIds.task).length).toBe(2);
   });
 
-  it('add new task', () => {
-    taskService.getList = jest.fn(() => {
-      return [
-        { name: '123', completed: false, lastModTime: 1678454949601 },
-        { name: '12345', completed: false, lastModTime: 1678454948434 }
-      ];
-    });
+  it('Add new task', () => {
     render(<TasksPage />);
 
     fireEvent.change(screen.queryByTestId(dataTestIds.taskInput), {
@@ -60,13 +56,7 @@ describe('Render TaskPage component', () => {
     expect(screen.queryAllByTestId(dataTestIds.task).length).toBe(3);
   });
 
-  it('change task status', () => {
-    taskService.getList = jest.fn(() => {
-      return [
-        { name: '123', completed: false, lastModTime: 1678454949601 },
-        { name: '12345', completed: false, lastModTime: 1678454948434 }
-      ];
-    });
+  it('Change task status', () => {
     render(<TasksPage />);
 
     const taskCheckBoxes = screen.queryAllByTestId(dataTestIds.taskCheckbox);
@@ -79,13 +69,7 @@ describe('Render TaskPage component', () => {
     expect(screen.queryAllByTestId(dataTestIds.taskCheckbox)[1]).not.toHaveClass(s['task__checkbox--active']);
   });
 
-  it('delete task', () => {
-    taskService.getList = jest.fn(() => {
-      return [
-        { name: '123', completed: false, lastModTime: 1678454949601 },
-        { name: '12345', completed: false, lastModTime: 1678454948434 }
-      ];
-    });
+  it('Delete task', () => {
     render(<TasksPage />);
 
     const taskDeleteButtons = screen.queryAllByTestId(dataTestIds.taskDeleteBtn);
@@ -95,14 +79,7 @@ describe('Render TaskPage component', () => {
     expect(screen.queryAllByTestId(dataTestIds.task).length).toBe(1);
   });
 
-  it('add task with empty input', () => {
-    taskService.getList = jest.fn(() => {
-      return [
-        { name: '123', completed: false, lastModTime: 1678454949601 },
-        { name: '12345', completed: false, lastModTime: 1678454948434 }
-      ];
-    });
-
+  it('Add task with empty input', () => {
     taskService.create = jest.fn(() => {
       throw new Error('Your task name is empty!');
     });
@@ -113,14 +90,7 @@ describe('Render TaskPage component', () => {
     expect(screen.queryAllByTestId(dataTestIds.task).length).toBe(2);
   });
 
-  it('add the same task', () => {
-    taskService.getList = jest.fn(() => {
-      return [
-        { name: '123', completed: false, lastModTime: 1678454949601 },
-        { name: '12345', completed: false, lastModTime: 1678454948434 }
-      ];
-    });
-
+  it('Add the same task', () => {
     taskService.create = jest.fn(() => {
       throw new Error('Task with such name already in your task list!');
     });

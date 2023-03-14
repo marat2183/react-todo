@@ -3,14 +3,14 @@ import taskRepository from 'repositories/taskRepository.js';
 
 describe('create task', () => {
   jest.mock('../../repositories/taskRepository.js');
-  taskRepository.getList = jest.fn();
-  taskRepository.get = jest.fn();
-  taskRepository.create = jest.fn();
-  taskRepository.update = jest.fn();
-  taskRepository.delete = jest.fn();
 
   afterEach(() => {
     jest.restoreAllMocks();
+    taskRepository.getList = jest.fn();
+    taskRepository.get = jest.fn();
+    taskRepository.create = jest.fn();
+    taskRepository.update = jest.fn();
+    taskRepository.delete = jest.fn();
   });
 
   it('Get empty list', () => {
@@ -96,7 +96,7 @@ describe('create task', () => {
 
   it('Toggle status of a non-existent task', () => {
     taskRepository.get = jest.fn(() => undefined);
-    
+
     expect(() => {
       const task = { name: 'test', completed: false, lastModTime: 1678454940551 };
       taskService.toggleStatus(task);

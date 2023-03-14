@@ -8,7 +8,6 @@ import TaskHeader from '../../components/TasksHeader';
 
 describe('TaskHeader tests', () => {
   jest.mock('services/taskService');
-  taskService.create = jest.fn();
   const setTasks = jest.fn();
 
   const dataTestIds = {
@@ -19,6 +18,7 @@ describe('TaskHeader tests', () => {
 
   afterEach(() => {
     jest.restoreAllMocks();
+    taskService.create = jest.fn();
   });
 
   it('Empty input', () => {
