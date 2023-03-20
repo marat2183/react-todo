@@ -1,0 +1,15 @@
+.task-list {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  max-height: 450px;
+  margin-top: 15px;
+}
+
+@media (min-width: 1024px) {
+  .task-list {
+    max-height: 700px;
+  }
+}

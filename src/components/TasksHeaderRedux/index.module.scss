@@ -1,0 +1,40 @@
+.header {
+  display: flex;
+  align-items: center;
+
+  &__input {
+    width: calc(100% - 25px);
+    height: 25px;
+
+    font-size: 15px;
+
+    border: none;
+    border-bottom: 1px solid grey;
+    outline: none;
+
+    &--error {
+      border-color: #f00;
+    }
+  }
+
+  &__add-btn {
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    margin-left: 10px;
+  }
+}
+
+.error {
+  display: none;
+
+  margin-top: 10px;
+
+  font-size: 14px;
+  color: #f00;
+  text-align: center;
+
+  &--active {
+    display: block;
+  }
+}
