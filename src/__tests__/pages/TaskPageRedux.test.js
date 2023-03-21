@@ -9,7 +9,6 @@ import TasksPageRedux from 'pages/redux-page';
 import s from 'components/TaskRedux/index.module.scss';
 import taskService from 'services/taskService';
 
-
 const dataTestIds = {
   taskInput: 'task_input',
   taskInputError: 'task_input_error',
@@ -23,15 +22,18 @@ const dataTestIds = {
 
 describe('Render TaskPage component', () => {
   jest.mock('services/taskService');
-  taskService.create = jest.fn();
-  taskService.getList = jest.fn().mockReturnValue([
-    { name: '123', completed: false, lastModTime: 1678454949601 },
-    { name: '12345', completed: false, lastModTime: 1678454948434 }
-  ]);
-  taskService.toggleStatus = jest.fn();
-  taskService.delete = jest.fn();
 
   beforeEach(() => {
+    taskService.create = jest.fn();
+    taskService.getList = jest.fn().mockReturnValue([
+      { name: '123', completed: false, lastModTime: 1678454949601 },
+      { name: '12345', completed: false, lastModTime: 1678454948434 }
+    ]);
+    taskService.toggleStatus = jest.fn();
+    taskService.delete = jest.fn();
+  });
+
+  afterEach(() => {
     jest.clearAllMocks();
   });
 
@@ -50,6 +52,7 @@ describe('Render TaskPage component', () => {
       },
       preloadedState
     });
+
     render(
       <Provider store={store}>
         <TasksPageRedux />
