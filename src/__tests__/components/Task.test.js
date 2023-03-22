@@ -25,6 +25,11 @@ describe('Task component', () => {
     setTasks = jest.fn();
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.resetAllMocks();
+  });
+
   it('Render completed task', () => {
     const task = { name: 'test', completed: false, lastModTime: 1678454940551 };
     render(<Task task={task} setTasks={setTasks} />);

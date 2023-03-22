@@ -58,6 +58,7 @@ describe('Render TaskPage component', () => {
         <TasksPageRedux />
       </Provider>
     );
+
     expect(screen.queryByTestId(dataTestIds.taskList)).not.toBe(null);
     expect(screen.queryAllByTestId(dataTestIds.task).length).toBe(2);
   });
@@ -82,7 +83,6 @@ describe('Render TaskPage component', () => {
         <TasksPageRedux />
       </Provider>
     );
-
     fireEvent.change(screen.queryByTestId(dataTestIds.taskInput), {
       target: { value: 'test' }
     });
@@ -114,7 +114,6 @@ describe('Render TaskPage component', () => {
     );
 
     const taskCheckBoxes = screen.queryAllByTestId(dataTestIds.taskCheckbox);
-
     fireEvent.click(taskCheckBoxes[0]);
 
     expect(screen.queryAllByTestId(dataTestIds.task)[0]).toHaveClass(s['task--completed']);
@@ -145,7 +144,6 @@ describe('Render TaskPage component', () => {
     );
 
     const taskDeleteButtons = screen.queryAllByTestId(dataTestIds.taskDeleteBtn);
-
     fireEvent.click(taskDeleteButtons[0]);
 
     expect(screen.queryAllByTestId(dataTestIds.task).length).toBe(1);
@@ -207,7 +205,6 @@ describe('Render TaskPage component', () => {
     fireEvent.change(screen.queryByTestId(dataTestIds.taskInput), {
       target: { value: 'test' }
     });
-
     fireEvent.click(screen.getByTestId(dataTestIds.taskInputBtn));
 
     expect(screen.queryAllByTestId(dataTestIds.task).length).toBe(2);

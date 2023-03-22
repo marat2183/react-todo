@@ -5,7 +5,6 @@ describe('create task', () => {
   jest.mock('../../repositories/taskRepository.js');
 
   beforeEach(() => {
-    jest.restoreAllMocks();
     taskRepository.getList = jest.fn();
     taskRepository.get = jest.fn();
     taskRepository.create = jest.fn();

@@ -1,7 +1,7 @@
 {
   "name": "react-todo",
   "jest": {
-    "clearMocks": true,
+    "clearMocks": false,
     "resetMocks": false,
     "restoreMocks": false
 

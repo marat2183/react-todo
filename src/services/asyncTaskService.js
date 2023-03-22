@@ -1,6 +1,6 @@
 import taskRepository from '../repositories/taskRepository.js';
 
-const REQUEST_DELAY = 2000;
+const REQUEST_DELAY = 500;
 
 const Service = class {
   constructor(taskRepository) {

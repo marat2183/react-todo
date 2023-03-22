@@ -54,8 +54,8 @@ describe('TaskHeader tests', () => {
     taskService.create = jest.fn(() => {
       throw new Error('Your task name is empty!');
     });
-    render(<TaskHeaderRedux />);
 
+    render(<TaskHeaderRedux />);
     fireEvent.click(screen.queryByTestId(dataTestIds.taskInputBtn));
 
     const expectedTaskName = '';
@@ -68,7 +68,6 @@ describe('TaskHeader tests', () => {
 
   it('Button click with changed input', () => {
     render(<TaskHeaderRedux />);
-
     fireEvent.change(screen.queryByTestId(dataTestIds.taskInput), {
       target: { value: 'test' }
     });
@@ -86,7 +85,6 @@ describe('TaskHeader tests', () => {
 
   it('Button click with input to trim', () => {
     render(<TaskHeaderRedux />);
-
     fireEvent.change(screen.queryByTestId(dataTestIds.taskInput), {
       target: { value: '   test   ' }
     });
@@ -106,8 +104,8 @@ describe('TaskHeader tests', () => {
     taskService.create = jest.fn(() => {
       throw new Error('Your task name is empty!');
     });
-    render(<TaskHeaderRedux />);
 
+    render(<TaskHeaderRedux />);
     fireEvent.click(screen.queryByTestId(dataTestIds.taskInputBtn));
     fireEvent.change(screen.queryByTestId(dataTestIds.taskInput), {
       target: { value: 'test' }

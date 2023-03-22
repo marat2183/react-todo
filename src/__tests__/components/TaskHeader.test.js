@@ -21,6 +21,11 @@ describe('TaskHeader tests', () => {
     setTasks = jest.fn();
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.resetAllMocks();
+  });
+
   it('Empty input', () => {
     render(<TaskHeader setTasks={setTasks} />);
 

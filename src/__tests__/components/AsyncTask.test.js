@@ -17,10 +17,12 @@ const dataTestIds = {
 
 describe('Task component', () => {
   jest.mock('services/asyncTaskService');
-  const onDelete = jest.fn();
-  const onToggleStatus = jest.fn();
+  let onDelete;
+  let onToggleStatus;
 
   beforeEach(() => {
+    onDelete = jest.fn();
+    onToggleStatus = jest.fn();
     asyncTaskService.toggleStatus = jest.fn().mockResolvedValue();
     asyncTaskService.delete = jest.fn().mockResolvedValue();
   });
@@ -56,7 +58,6 @@ describe('Task component', () => {
 
   it('Change task completed state', async () => {
     const task = { name: 'test', completed: false, lastModTime: 1678454940551 };
-    const expectedTaskArg = { name: 'test', completed: false, lastModTime: 1678454940551 };
     const resolvedTask = {
       name: 'test',
       completed: true,
@@ -67,20 +68,27 @@ describe('Task component', () => {
     render(<AsyncTask task={task} onDelete={onDelete} onToggleStatus={onToggleStatus} />);
     fireEvent.click(screen.queryByTestId(dataTestIds.taskCheckbox));
 
+    const expectedTaskArg = { name: 'test', completed: false, lastModTime: 1678454940551 };
+    const expectedResolvedTask = {
+      name: 'test',
+      completed: true,
+      lastModTime: 1678454940551
+    };
     expect(asyncTaskService.toggleStatus).toHaveBeenCalledTimes(1);
     expect(asyncTaskService.toggleStatus).toHaveBeenCalledWith(expectedTaskArg);
     await waitFor(() => expect(onToggleStatus).toHaveBeenCalledTimes(1));
-    await waitFor(() => expect(onToggleStatus).toHaveBeenCalledWith(resolvedTask));
+    await waitFor(() => expect(onToggleStatus).toHaveBeenCalledWith(expectedResolvedTask));
   });
 
   it('Delete task', async () => {
     const task = { name: 'test', completed: false, lastModTime: 1678454940551 };
-    const expectedTaskArg = { name: 'test', completed: false, lastModTime: 1678454940551 };
-    const expectedTaskName = 'test';
     asyncTaskService.delete = jest.fn().mockResolvedValue();
 
     render(<AsyncTask task={task} onDelete={onDelete} onToggleStatus={onToggleStatus} />);
     fireEvent.click(screen.queryByTestId(dataTestIds.taskDeleteBtn));
+
+    const expectedTaskArg = { name: 'test', completed: false, lastModTime: 1678454940551 };
+    const expectedTaskName = 'test';
 
     expect(asyncTaskService.delete).toHaveBeenCalledTimes(1);
     expect(asyncTaskService.delete).toHaveBeenCalledWith(expectedTaskName);

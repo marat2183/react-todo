@@ -25,6 +25,7 @@ describe('TaskList component tests', () => {
 
   it('Render without tasks', () => {
     jest.spyOn(reduxHook, 'useSelector').mockReturnValue([]);
+
     render(<TaskListRedux />);
 
     expect(screen.queryByTestId(dataTestIds.taskList)).not.toBe(null);

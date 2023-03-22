@@ -14,9 +14,10 @@ const dataTestIds = {
 
 describe('TaskHeader tests', () => {
   jest.mock('services/asyncTaskService');
-  const onAddTask = jest.fn();
+  let onAddTask;
 
   beforeEach(() => {
+    onAddTask = jest.fn();
     asyncTaskService.create = jest.fn().mockResolvedValue();
   });
 
@@ -56,44 +57,40 @@ describe('TaskHeader tests', () => {
   });
 
   it('Button click with changed input', async () => {
-    asyncTaskService.create = jest.fn().mockResolvedValue({
-      name: 'test',
-      completed: false,
-      lastModTime: 1678800893214
-    });
-    const expectedTaskName = 'test';
     const resolvedTask = {
       name: 'test',
       completed: false,
       lastModTime: 1678800893214
     };
-
+    asyncTaskService.create = jest.fn().mockResolvedValue(resolvedTask);
+    
     render(<AsyncTaskHeader onAddTask={onAddTask} />);
     fireEvent.change(screen.queryByTestId(dataTestIds.taskInput), {
       target: { value: 'test' }
     });
     fireEvent.click(screen.queryByTestId(dataTestIds.taskInputBtn));
 
+    const expectedTaskName = 'test';
+    const expectedResolvedTask = {
+      name: 'test',
+      completed: false,
+      lastModTime: 1678800893214
+    };
     await waitFor(() => expect(screen.queryByTestId(dataTestIds.taskInput).value).toBe(''));
     await waitFor(() => expect(screen.queryByTestId(dataTestIds.taskInputError)).toBe(null));
     expect(onAddTask).toHaveBeenCalledTimes(1);
-    expect(onAddTask).toHaveBeenCalledWith(resolvedTask);
+    expect(onAddTask).toHaveBeenCalledWith(expectedResolvedTask);
     expect(asyncTaskService.create).toBeCalledTimes(1);
     expect(asyncTaskService.create).toHaveBeenCalledWith(expectedTaskName);
   });
 
   it('Button click with input to trim', async () => {
-    asyncTaskService.create = jest.fn().mockResolvedValue({
-      name: 'test',
-      completed: false,
-      lastModTime: 1678800893214
-    });
     const resolvedTask = {
       name: 'test',
       completed: false,
       lastModTime: 1678800893214
     };
-    const expectedTaskName = 'test';
+    asyncTaskService.create = jest.fn().mockResolvedValue(resolvedTask);
 
     render(<AsyncTaskHeader onAddTask={onAddTask} />);
     fireEvent.change(screen.queryByTestId(dataTestIds.taskInput), {
@@ -101,12 +98,19 @@ describe('TaskHeader tests', () => {
     });
     fireEvent.click(screen.queryByTestId(dataTestIds.taskInputBtn));
 
+    const expectedResolvedTask = {
+      name: 'test',
+      completed: false,
+      lastModTime: 1678800893214
+    };
+    const expectedTaskName = 'test';
+
     expect(asyncTaskService.create).toBeCalledTimes(1);
     expect(asyncTaskService.create).toHaveBeenCalledWith(expectedTaskName);
     await waitFor(() => expect(screen.queryByTestId(dataTestIds.taskInput).value).toBe(''));
     await waitFor(() => expect(screen.queryByTestId(dataTestIds.taskInputError)).toBe(null));
     await waitFor(() => expect(onAddTask).toHaveBeenCalledTimes(1));
-    await waitFor(() => expect(onAddTask).toHaveBeenCalledWith(resolvedTask));
+    await waitFor(() => expect(onAddTask).toHaveBeenCalledWith(expectedResolvedTask));
   });
 
   it('Error reset when input changed', () => {

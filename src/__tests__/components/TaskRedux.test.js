@@ -38,6 +38,7 @@ describe('Task component', () => {
 
   it('Render completed task', () => {
     const task = { name: 'test', completed: false, lastModTime: 1678454940551 };
+
     render(<TaskRedux task={task} />);
 
     expect(screen.queryByTestId(dataTestIds.task)).not.toBe(null);
@@ -50,6 +51,7 @@ describe('Task component', () => {
 
   it('Render uncompleted task', () => {
     const task = { name: 'test', completed: true, lastModTime: 1678454940551 };
+
     render(<TaskRedux task={task} />);
 
     expect(screen.queryByTestId(dataTestIds.task)).not.toBe(null);
@@ -62,6 +64,7 @@ describe('Task component', () => {
 
   it('Change task completed state', () => {
     const task = { name: 'test', completed: false, lastModTime: 1678454940551 };
+
     render(<TaskRedux task={task} />);
     fireEvent.click(screen.queryByTestId(dataTestIds.taskCheckbox));
 
@@ -78,6 +81,7 @@ describe('Task component', () => {
 
   it('Delete task', () => {
     const task = { name: 'test', completed: false, lastModTime: 1678454940551 };
+
     render(<TaskRedux task={task} />);
     fireEvent.click(screen.queryByTestId(dataTestIds.taskDeleteBtn));
 

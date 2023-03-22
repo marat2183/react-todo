@@ -5,13 +5,23 @@ import React from 'react';
 import AsyncTaskList from '../../components/AsyncTaskList';
 
 describe('TaskList component tests', () => {
-  const onDelete = jest.fn();
-  const onToggleStatus = jest.fn();
+  let onDelete;
+  let onToggleStatus;
 
   const dataTestIds = {
     taskList: 'tasks_list',
     task: 'task'
   };
+
+  beforeEach(() => {
+    onDelete = jest.fn();
+    onToggleStatus = jest.fn();
+  });
+
+  afterEach(() => {
+    jest.clearAllMocks();
+    jest.resetAllMocks();
+  });
 
   it('Render without tasks', () => {
     const tasks = [];
