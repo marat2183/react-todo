@@ -21,7 +21,9 @@ const AsyncTasksPage = () => {
       });
   }, []);
 
-  const onAddTask = (task) => setTasks((prev) => [...prev, task]);
+  const onAddTask = (task) => {
+    setTasks((prev) => [...prev, task]);
+  };
 
   const onToggleStatus = (updatedTask) =>
     setTasks((tasks) => {
@@ -44,7 +46,7 @@ const AsyncTasksPage = () => {
       <AsyncTasksHeader onAddTask={onAddTask} error={error} setError={setError} />
       {isLoading ? (
         <>
-          <p>Loading...</p>
+          <p data-testid="loader">Loading...</p>
         </>
       ) : (
         <AsyncTaskList tasks={tasks} onDelete={onDelete} onToggleStatus={onToggleStatus} />
